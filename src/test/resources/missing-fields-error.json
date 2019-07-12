@@ -1,0 +1,10 @@
+[
+  {
+    "key": "kubernetes_secret_name",
+    "message": "kubernetes_secret_name must not be blank."
+  },
+  {
+    "key": "security_token",
+    "message": "security_token must not be blank."
+  }
+]
