@@ -34,6 +34,11 @@ public class SecretConfigLookupExecutor extends LookupExecutor<SecretConfigReque
                     .withName(secretConfig.getSecretName())
                     .get();
 
+            if (kubernetesSecret == null) {
+                LOG.error("Failed to lookup secret from Kubernetes Secret. Specified Kubernetes secret does not exist.");
+                return DefaultGoPluginApiResponse.error(toJson(singletonMap("message", "Failed to lookup secret from Kubernetes Secret. Specified Kubernetes secret does not exist.")));
+            }
+
             final Secrets secrets = new Secrets();
             ArrayList<String> missingSecretIds = new ArrayList<>();
             for (String secretId : secretIds) {
