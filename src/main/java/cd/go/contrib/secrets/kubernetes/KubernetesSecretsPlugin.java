@@ -1,5 +1,7 @@
 package cd.go.contrib.secrets.kubernetes;
 
+import cd.go.contrib.secrets.kubernetes.models.SecretConfig;
+import cd.go.contrib.secrets.kubernetes.validators.CredentialValidator;
 import com.github.bdpiparva.plugin.base.dispatcher.BaseBuilder;
 import com.github.bdpiparva.plugin.base.dispatcher.RequestDispatcher;
 import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
@@ -10,8 +12,6 @@ import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
-import cd.go.contrib.secrets.kubernetes.models.SecretConfig;
-import cd.go.contrib.secrets.kubernetes.validators.CredentialValidator;
 
 import static java.util.Collections.singletonList;
 
@@ -19,6 +19,16 @@ import static java.util.Collections.singletonList;
 public class KubernetesSecretsPlugin implements GoPlugin {
     public static final Logger LOG = Logger.getLoggerFor(KubernetesSecretsPlugin.class);
     private RequestDispatcher requestDispatcher;
+    private final KubernetesClientFactory kubernetesClientFactory;
+
+    public KubernetesSecretsPlugin() {
+        kubernetesClientFactory = KubernetesClientFactory.instance();
+    }
+
+    //used for tests
+    public KubernetesSecretsPlugin(KubernetesClientFactory factory) {
+        kubernetesClientFactory = factory;
+    }
 
     @Override
     public void initializeGoApplicationAccessor(GoApplicationAccessor goApplicationAccessor) {
@@ -28,7 +38,7 @@ public class KubernetesSecretsPlugin implements GoPlugin {
                 .icon("/kubernetes_logo.svg", "image/svg+xml")
                 .configMetadata(SecretConfig.class)
                 .configView("/secrets.template.html")
-                .validateSecretConfig(new CredentialValidator())
+                .validateSecretConfig(new CredentialValidator(kubernetesClientFactory))
                 .lookup(new SecretConfigLookupExecutor())
                 .build();
     }

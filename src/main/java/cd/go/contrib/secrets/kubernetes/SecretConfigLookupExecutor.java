@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import static cd.go.contrib.secrets.kubernetes.KubernetesSecretsPlugin.LOG;
 import static com.github.bdpiparva.plugin.base.GsonTransformer.fromJson;
 import static com.github.bdpiparva.plugin.base.GsonTransformer.toJson;
 import static java.util.Collections.singletonMap;
@@ -50,7 +51,7 @@ public class SecretConfigLookupExecutor extends LookupExecutor<SecretConfigReque
 
             return DefaultGoPluginApiResponse.success(toJson(secrets));
         } catch (Exception e) {
-            LOGGER.error("Failed to lookup secret from Kubernetes Secret.", e);
+            LOG.error("Failed to lookup secret from Kubernetes Secret.", e);
             return DefaultGoPluginApiResponse.error(toJson(singletonMap("message", "Failed to lookup secrets from Kubernetes Secret. See logs for more information.")));
         } finally {
             client.close();

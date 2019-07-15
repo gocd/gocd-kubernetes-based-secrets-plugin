@@ -23,11 +23,16 @@ import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
 import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
 import com.thoughtworks.go.plugin.api.request.DefaultGoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import io.fabric8.kubernetes.api.model.Secret;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.dsl.MixedOperation;
+import io.fabric8.kubernetes.client.dsl.Resource;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.mockito.Mock;
 
 import java.util.Map;
 
@@ -35,16 +40,27 @@ import static com.github.bdpiparva.plugin.base.ResourceReader.readResource;
 import static com.github.bdpiparva.plugin.base.ResourceReader.readResourceBytes;
 import static java.util.Base64.getDecoder;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 class KubernetesSecretsPluginTest {
     private KubernetesSecretsPlugin kubernetesSecretsPlugin;
 
+    @Mock
+    KubernetesClientFactory kubernetesClientFactory;
+
+    @Mock
+    KubernetesClient kubernetesClient;
+
     @BeforeEach
     void setUp() {
-        kubernetesSecretsPlugin = new KubernetesSecretsPlugin();
+        initMocks(this);
+        kubernetesSecretsPlugin = new KubernetesSecretsPlugin(kubernetesClientFactory);
         kubernetesSecretsPlugin.initializeGoApplicationAccessor(mock(GoApplicationAccessor.class));
+        when(kubernetesClientFactory.client(any())).thenReturn(kubernetesClient);
     }
 
     @Test
@@ -97,9 +113,20 @@ class KubernetesSecretsPluginTest {
     class ValidateSecretConfig {
         private String requestName;
 
+        @Mock
+        private MixedOperation secrets;
+        @Mock
+        private Resource resource;
+
         @BeforeEach
         void setUp() {
+            initMocks(this);
             requestName = "go.cd.secrets.secrets-config.validate";
+
+            when(kubernetesClient.secrets()).thenReturn(secrets);
+            when(secrets.inNamespace(any())).thenReturn(secrets);
+            when(secrets.withName(any())).thenReturn(resource);
+            when(resource.get()).thenReturn(new Secret());
         }
 
         @ParameterizedTest
@@ -142,6 +169,38 @@ class KubernetesSecretsPluginTest {
 
             assertThat(response.responseCode()).isEqualTo(200);
             assertEquals("[]", response.responseBody(), true);
+        }
+
+        @ParameterizedTest
+        @JsonSource(jsonFiles = {
+                "/secret-config.json",
+                "/non-existing-secret-config.json"
+        })
+        void shouldFailWhenNoSecretExistsWithTheSpecifiedName(String requestBody, String expected) throws UnhandledRequestTypeException, JSONException {
+            when(resource.get()).thenReturn(null);
+            final DefaultGoPluginApiRequest request = request(requestName);
+            request.setRequestBody(requestBody);
+
+            final GoPluginApiResponse response = kubernetesSecretsPlugin.handle(request);
+
+            assertThat(response.responseCode()).isEqualTo(200);
+            assertEquals(expected, response.responseBody(), true);
+        }
+
+        @ParameterizedTest
+        @JsonSource(jsonFiles = {
+                "/secret-config.json",
+                "/invalid-secret-config.json"
+        })
+        void shouldFailWhenProvidedSecretConfigurationsAreInvalid(String requestBody, String expected) throws UnhandledRequestTypeException, JSONException {
+            when(kubernetesClient.secrets()).thenThrow(new RuntimeException("Boom!"));
+            final DefaultGoPluginApiRequest request = request(requestName);
+            request.setRequestBody(requestBody);
+
+            final GoPluginApiResponse response = kubernetesSecretsPlugin.handle(request);
+
+            assertThat(response.responseCode()).isEqualTo(200);
+            assertEquals(expected, response.responseBody(), true);
         }
     }
 

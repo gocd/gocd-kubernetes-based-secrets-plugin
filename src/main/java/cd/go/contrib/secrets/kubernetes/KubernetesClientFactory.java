@@ -27,31 +27,31 @@ import static java.text.MessageFormat.format;
 public class KubernetesClientFactory {
     private static final KubernetesClientFactory KUBERNETES_CLIENT_FACTORY = new KubernetesClientFactory();
     private KubernetesClient client;
-    private SecretConfig pluginSettings;
+    private SecretConfig secretConfig;
 
     public static KubernetesClientFactory instance() {
         return KUBERNETES_CLIENT_FACTORY;
     }
 
-    public synchronized KubernetesClient client(SecretConfig pluginSettings) {
-        if (pluginSettings.equals(this.pluginSettings) && this.client != null) {
+    public synchronized KubernetesClient client(SecretConfig secretConfig) {
+        if (secretConfig.equals(this.secretConfig) && this.client != null) {
             LOG.debug("Using previously created client.");
             return this.client;
         }
 
-        LOG.debug(format("Creating a new client because {0}.", (client == null) ? "client is null" : "plugin setting is changed"));
-        this.pluginSettings = pluginSettings;
-        this.client = createClientFor(pluginSettings);
+        LOG.debug(format("Creating a new client because {0}.", (client == null) ? "client is null" : "secret configuration has changed"));
+        this.secretConfig = secretConfig;
+        this.client = createClientFor(secretConfig);
         LOG.debug("New client is created.");
         return this.client;
     }
 
-    private KubernetesClient createClientFor(SecretConfig pluginSettings) {
+    private KubernetesClient createClientFor(SecretConfig secretConfig) {
         final ConfigBuilder configBuilder = new ConfigBuilder()
-                .withOauthToken(pluginSettings.getSecurityToken())
-                .withMasterUrl(pluginSettings.getClusterUrl())
-                .withCaCertData(pluginSettings.getClusterCACertData())
-                .withNamespace(pluginSettings.getNamespace());
+                .withOauthToken(secretConfig.getSecurityToken())
+                .withMasterUrl(secretConfig.getClusterUrl())
+                .withCaCertData(secretConfig.getClusterCACertData())
+                .withNamespace(secretConfig.getNamespace());
 
         return new DefaultKubernetesClient(configBuilder.build());
     }
