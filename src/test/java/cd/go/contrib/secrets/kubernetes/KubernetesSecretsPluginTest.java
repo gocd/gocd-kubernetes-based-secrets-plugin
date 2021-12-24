@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 class KubernetesSecretsPluginTest {
@@ -57,7 +57,7 @@ class KubernetesSecretsPluginTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         kubernetesSecretsPlugin = new KubernetesSecretsPlugin(kubernetesClientFactory);
         kubernetesSecretsPlugin.initializeGoApplicationAccessor(mock(GoApplicationAccessor.class));
         when(kubernetesClientFactory.client(any())).thenReturn(kubernetesClient);
@@ -120,7 +120,7 @@ class KubernetesSecretsPluginTest {
 
         @BeforeEach
         void setUp() {
-            initMocks(this);
+            openMocks(this);
             requestName = "go.cd.secrets.secrets-config.validate";
 
             when(kubernetesClient.secrets()).thenReturn(secrets);
