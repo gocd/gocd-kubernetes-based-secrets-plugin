@@ -18,8 +18,8 @@ package cd.go.contrib.secrets.kubernetes;
 
 import cd.go.contrib.secrets.kubernetes.models.SecretConfig;
 import io.fabric8.kubernetes.client.ConfigBuilder;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 
 import static cd.go.contrib.secrets.kubernetes.KubernetesSecretsPlugin.LOG;
 import static java.text.MessageFormat.format;
@@ -53,6 +53,6 @@ public class KubernetesClientFactory {
                 .withCaCertData(secretConfig.getClusterCACertData())
                 .withNamespace(secretConfig.getNamespace());
 
-        return new DefaultKubernetesClient(configBuilder.build());
+        return new KubernetesClientBuilder().withConfig(configBuilder.build()).build();
     }
 }
