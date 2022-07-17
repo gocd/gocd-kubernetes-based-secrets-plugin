@@ -16,7 +16,7 @@
 
 package cd.go.contrib.secrets.kubernetes.models;
 
-import com.github.bdpiparva.plugin.base.annotations.Property;
+import cd.go.plugin.base.annotations.Property;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.StringUtils;

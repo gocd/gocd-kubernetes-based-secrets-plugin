@@ -2,8 +2,8 @@ package cd.go.contrib.secrets.kubernetes;
 
 import cd.go.contrib.secrets.kubernetes.models.SecretConfig;
 import cd.go.contrib.secrets.kubernetes.validators.CredentialValidator;
-import com.github.bdpiparva.plugin.base.dispatcher.BaseBuilder;
-import com.github.bdpiparva.plugin.base.dispatcher.RequestDispatcher;
+import cd.go.plugin.base.dispatcher.BaseBuilder;
+import cd.go.plugin.base.dispatcher.RequestDispatcher;
 import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
 import com.thoughtworks.go.plugin.api.GoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
@@ -44,8 +44,14 @@ public class KubernetesSecretsPlugin implements GoPlugin {
     }
 
     @Override
-    public GoPluginApiResponse handle(GoPluginApiRequest request) throws UnhandledRequestTypeException {
-        return requestDispatcher.dispatch(request);
+    public GoPluginApiResponse handle(GoPluginApiRequest request) {
+        try {
+            return requestDispatcher.dispatch(request);
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

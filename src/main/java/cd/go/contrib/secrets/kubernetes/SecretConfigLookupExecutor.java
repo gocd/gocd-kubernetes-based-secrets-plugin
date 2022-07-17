@@ -3,7 +3,7 @@ package cd.go.contrib.secrets.kubernetes;
 import cd.go.contrib.secrets.kubernetes.models.SecretConfig;
 import cd.go.contrib.secrets.kubernetes.models.Secrets;
 import cd.go.contrib.secrets.kubernetes.request.SecretConfigRequest;
-import com.github.bdpiparva.plugin.base.executors.secrets.LookupExecutor;
+import cd.go.plugin.base.executors.secrets.LookupExecutor;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import io.fabric8.kubernetes.api.model.Secret;
@@ -14,8 +14,8 @@ import java.util.Base64;
 import java.util.List;
 
 import static cd.go.contrib.secrets.kubernetes.KubernetesSecretsPlugin.LOG;
-import static com.github.bdpiparva.plugin.base.GsonTransformer.fromJson;
-import static com.github.bdpiparva.plugin.base.GsonTransformer.toJson;
+import static cd.go.plugin.base.GsonTransformer.fromJson;
+import static cd.go.plugin.base.GsonTransformer.toJson;
 import static java.util.Collections.singletonMap;
 
 public class SecretConfigLookupExecutor extends LookupExecutor<SecretConfigRequest> {

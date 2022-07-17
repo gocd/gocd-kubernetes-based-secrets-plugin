@@ -2,17 +2,17 @@ package cd.go.contrib.secrets.kubernetes.validators;
 
 import cd.go.contrib.secrets.kubernetes.KubernetesClientFactory;
 import cd.go.contrib.secrets.kubernetes.models.SecretConfig;
-import com.github.bdpiparva.plugin.base.validation.ValidationResult;
-import com.github.bdpiparva.plugin.base.validation.Validator;
+import cd.go.plugin.base.GsonTransformer;
+import cd.go.plugin.base.validation.ValidationResult;
+import cd.go.plugin.base.validation.Validator;
+import com.thoughtworks.go.plugin.api.logging.Logger;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
 import java.util.Map;
 
-import static com.github.bdpiparva.plugin.base.executors.Executor.GSON;
-import static com.github.bdpiparva.plugin.base.executors.Executor.LOGGER;
-
 public class CredentialValidator implements Validator {
+    private static final Logger LOGGER = Logger.getLoggerFor(CredentialValidator.class);
     private KubernetesClientFactory kubernetesClientFactory;
 
     public CredentialValidator(KubernetesClientFactory kubernetesClientFactory) {
@@ -23,7 +23,7 @@ public class CredentialValidator implements Validator {
     public ValidationResult validate(Map<String, String> requestBody) {
         ValidationResult validationResult = new ValidationResult();
 
-        SecretConfig secretConfig = GSON.fromJson(GSON.toJson(requestBody), SecretConfig.class);
+        SecretConfig secretConfig = GsonTransformer.fromJson(GsonTransformer.toJson(requestBody), SecretConfig.class);
         KubernetesClient client = kubernetesClientFactory.client(secretConfig);
 
         try {
