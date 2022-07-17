@@ -19,7 +19,7 @@ apply from: "https://raw.githubusercontent.com/gocd/gocd-plugin-gradle-task-help
 
 gocdPlugin {
     id = 'cd.go.contrib.secrets.kubernetes'
-    pluginVersion = '1.1.0'
+    pluginVersion = '1.2.0'
     goCdVersion = '20.9.0'
     name = 'Kubernetes Secrets Plugin for GoCD'
     description = 'Kubernetes secrets based secrets plugin for GoCD'
@@ -50,12 +50,14 @@ repositories {
 ext {
     gocdPluginApiVersion = '22.1.0'
     junitVersion = '5.8.2'
+    kubernetesClientVersion = '6.0.0'
 }
 
 dependencies {
     implementation group: 'cd.go.plugin.base', name: 'gocd-plugin-base', version: '0.0.4'
     compileOnly group: 'cd.go.plugin', name: 'go-plugin-api', version: gocdPluginApiVersion
-    implementation group: 'io.fabric8', name: 'kubernetes-client', version: '6.0.0'
+    implementation group: 'io.fabric8', name: 'kubernetes-client-api', version: kubernetesClientVersion
+    runtimeOnly group: 'io.fabric8', name: 'kubernetes-client', version: kubernetesClientVersion
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
