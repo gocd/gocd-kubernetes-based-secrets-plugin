@@ -47,25 +47,33 @@ repositories {
     mavenCentral()
 }
 
+static String versionOf(String dependencySpec) {
+    return dependencySpec.split(':').last()
+}
+
 ext {
-    gocdPluginApiVersion = '22.1.0'
-    junitVersion = '5.8.2'
-    kubernetesClientVersion = '6.0.0'
+    deps = [
+            gocdPluginApi      : 'cd.go.plugin:go-plugin-api:22.1.0',
+            junit              : 'org.junit.jupiter:junit-jupiter-api:5.8.2',
+            kubernetesClientApi: 'io.fabric8:kubernetes-client-api:6.0.0',
+    ]
+
+    versions = project.ext.deps.collectEntries { lib, libGav -> [lib, versionOf(libGav)] }
 }
 
 dependencies {
     implementation group: 'cd.go.plugin.base', name: 'gocd-plugin-base', version: '0.0.4'
-    compileOnly group: 'cd.go.plugin', name: 'go-plugin-api', version: gocdPluginApiVersion
-    implementation group: 'io.fabric8', name: 'kubernetes-client-api', version: kubernetesClientVersion
-    runtimeOnly group: 'io.fabric8', name: 'kubernetes-client', version: kubernetesClientVersion
+    compileOnly project.deps.gocdPluginApi
+    implementation project.deps.kubernetesClientApi
+    runtimeOnly group: 'io.fabric8', name: 'kubernetes-client', version: project.versions.kubernetesClientApi
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitVersion
+    testImplementation project.deps.junit
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: project.versions.junit
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.versions.junit
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.23.1'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
     testImplementation group: 'org.jsoup', name: 'jsoup', version: '1.15.2'
-    testImplementation group: 'cd.go.plugin', name: 'go-plugin-api', version: gocdPluginApiVersion
+    testImplementation group: 'cd.go.plugin', name: 'go-plugin-api', version: project.versions.gocdPluginApi
     testImplementation group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.1'
 }
 
