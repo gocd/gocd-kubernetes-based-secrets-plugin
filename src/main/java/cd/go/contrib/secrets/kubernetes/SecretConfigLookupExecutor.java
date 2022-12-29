@@ -22,7 +22,7 @@ public class SecretConfigLookupExecutor extends LookupExecutor<SecretConfigReque
     @Override
     protected GoPluginApiResponse execute(SecretConfigRequest request) {
         SecretConfig secretConfig = request.getConfiguration();
-        KubernetesClient client = KubernetesClientFactory.instance().client(secretConfig);
+        KubernetesClient client = KubernetesClientFactory.createClientFor(secretConfig);
         try {
             List<String> secretIds = request.getKeys();
             if (secretIds == null || secretIds.isEmpty()) {

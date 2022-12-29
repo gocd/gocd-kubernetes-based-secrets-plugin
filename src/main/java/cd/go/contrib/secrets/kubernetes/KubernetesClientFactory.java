@@ -46,7 +46,7 @@ public class KubernetesClientFactory {
         return this.client;
     }
 
-    private KubernetesClient createClientFor(SecretConfig secretConfig) {
+    public static KubernetesClient createClientFor(SecretConfig secretConfig) {
         final ConfigBuilder configBuilder = new ConfigBuilder()
                 .withOauthToken(secretConfig.getSecurityToken())
                 .withMasterUrl(secretConfig.getClusterUrl())
