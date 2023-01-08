@@ -103,6 +103,7 @@ public class SecretConfig {
 
     public boolean hasSameTargetCluster(SecretConfig that) {
         if (this == that) return true;
+        if (that == null) return false;
         return Objects.equals(clusterUrl, that.clusterUrl) &&
                 Objects.equals(securityToken, that.securityToken) &&
                 Objects.equals(clusterCACertData, that.clusterCACertData);
