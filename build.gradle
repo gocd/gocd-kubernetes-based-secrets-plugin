@@ -19,7 +19,7 @@ apply from: "https://raw.githubusercontent.com/gocd/gocd-plugin-gradle-task-help
 
 gocdPlugin {
     id = 'cd.go.contrib.secrets.kubernetes'
-    pluginVersion = '1.2.1'
+    pluginVersion = '1.2.2'
     goCdVersion = '20.9.0'
     name = 'Kubernetes Secrets Plugin for GoCD'
     description = 'Kubernetes secrets based secrets plugin for GoCD'
