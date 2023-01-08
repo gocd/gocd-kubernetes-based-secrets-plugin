@@ -101,6 +101,13 @@ public class SecretConfig {
                 Objects.equals(namespace, that.namespace);
     }
 
+    public boolean hasSameTargetCluster(SecretConfig that) {
+        if (this == that) return true;
+        return Objects.equals(clusterUrl, that.clusterUrl) &&
+                Objects.equals(securityToken, that.securityToken) &&
+                Objects.equals(clusterCACertData, that.clusterCACertData);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(secretName, clusterUrl, securityToken, clusterCACertData, namespace);

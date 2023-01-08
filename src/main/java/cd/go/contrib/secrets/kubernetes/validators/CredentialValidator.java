@@ -36,8 +36,6 @@ public class CredentialValidator implements Validator {
             String errorMessage = "Could not read specified secret. Either the connection with kubernetes cluster could not be established or the kubernetes secret does not exists.";
             validationResult.add("kubernetes_secret_name", errorMessage);
             validationResult.add("kubernetes_cluster_url", errorMessage);
-        } finally {
-            client.close();
         }
 
         return validationResult;

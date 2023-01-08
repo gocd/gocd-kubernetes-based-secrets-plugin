@@ -58,8 +58,6 @@ public class SecretConfigLookupExecutor extends LookupExecutor<SecretConfigReque
         } catch (Exception e) {
             LOG.error("Failed to lookup secret from Kubernetes Secret.", e);
             return DefaultGoPluginApiResponse.error(toJson(singletonMap("message", "Failed to lookup secrets from Kubernetes Secret. See logs for more information.")));
-        } finally {
-            client.close();
         }
     }
 

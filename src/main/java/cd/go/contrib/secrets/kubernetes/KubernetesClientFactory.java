@@ -34,7 +34,7 @@ public class KubernetesClientFactory {
     }
 
     public synchronized KubernetesClient client(SecretConfig secretConfig) {
-        if (secretConfig.equals(this.secretConfig) && this.client != null) {
+        if (secretConfig.hasSameTargetCluster(this.secretConfig) && this.client != null) {
             LOG.debug("Using previously created client.");
             return this.client;
         }
@@ -50,8 +50,7 @@ public class KubernetesClientFactory {
         final ConfigBuilder configBuilder = new ConfigBuilder()
                 .withOauthToken(secretConfig.getSecurityToken())
                 .withMasterUrl(secretConfig.getClusterUrl())
-                .withCaCertData(secretConfig.getClusterCACertData())
-                .withNamespace(secretConfig.getNamespace());
+                .withCaCertData(secretConfig.getClusterCACertData());
 
         return new KubernetesClientBuilder().withConfig(configBuilder.build()).build();
     }
