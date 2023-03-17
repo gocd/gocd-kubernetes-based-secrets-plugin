@@ -53,7 +53,7 @@ static String versionOf(String dependencySpec) {
 
 ext {
     deps = [
-            gocdPluginApi      : 'cd.go.plugin:go-plugin-api:22.3.0',
+            gocdPluginApi      : 'cd.go.plugin:go-plugin-api:23.1.0',
             kubernetesClientApi: 'io.fabric8:kubernetes-client-api:6.5.0',
     ]
 
