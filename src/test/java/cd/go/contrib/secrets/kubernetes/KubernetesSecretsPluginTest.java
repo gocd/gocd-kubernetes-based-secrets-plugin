@@ -20,10 +20,10 @@ import cd.go.contrib.secrets.kubernetes.annotations.JsonSource;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
-import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
 import com.thoughtworks.go.plugin.api.request.DefaultGoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import io.fabric8.kubernetes.api.model.Secret;
+import io.fabric8.kubernetes.api.model.SecretList;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.Resource;
@@ -114,9 +114,9 @@ class KubernetesSecretsPluginTest {
         private String requestName;
 
         @Mock
-        private MixedOperation secrets;
+        private MixedOperation<Secret, SecretList, Resource<Secret>> secrets;
         @Mock
-        private Resource resource;
+        private Resource<Secret> resource;
 
         @BeforeEach
         void setUp() {
