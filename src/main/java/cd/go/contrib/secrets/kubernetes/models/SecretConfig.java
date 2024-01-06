@@ -61,7 +61,7 @@ public class SecretConfig {
     }
 
     public String getClusterCACertData() {
-        return clusterCACertData;
+        return clusterCACertData != null && clusterCACertData.isBlank() ? null : clusterCACertData;
     }
 
     public String getNamespace() {
