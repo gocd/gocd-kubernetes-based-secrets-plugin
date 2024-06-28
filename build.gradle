@@ -68,7 +68,7 @@ dependencies {
     implementation project.deps.kubernetesClientApi
     runtimeOnly group: 'io.fabric8', name: 'kubernetes-client', version: project.versions.kubernetesClientApi
 
-    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation platform('org.junit:junit-bom:5.10.3')
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
