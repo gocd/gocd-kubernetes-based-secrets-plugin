@@ -63,7 +63,7 @@ ext {
 }
 
 dependencies {
-    implementation group: 'cd.go.plugin.base', name: 'gocd-plugin-base', version: '1.0.0'
+    implementation group: 'cd.go.plugin.base', name: 'gocd-plugin-base', version: '1.0.1'
     compileOnly project.deps.gocdPluginApi
     implementation project.deps.kubernetesClientApi
     runtimeOnly group: 'io.fabric8', name: 'kubernetes-client', version: project.versions.kubernetesClientApi
