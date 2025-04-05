@@ -32,6 +32,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.mockito.Answers;
 import org.mockito.Mock;
 
 import java.util.Map;
@@ -49,7 +50,7 @@ import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 class KubernetesSecretsPluginTest {
     private KubernetesSecretsPlugin kubernetesSecretsPlugin;
 
-    @Mock
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     KubernetesClientFactory kubernetesClientFactory;
 
     @Mock
@@ -60,7 +61,7 @@ class KubernetesSecretsPluginTest {
         openMocks(this);
         kubernetesSecretsPlugin = new KubernetesSecretsPlugin(kubernetesClientFactory);
         kubernetesSecretsPlugin.initializeGoApplicationAccessor(mock(GoApplicationAccessor.class));
-        when(kubernetesClientFactory.client(any())).thenReturn(kubernetesClient);
+        when(kubernetesClientFactory.client(any()).get()).thenReturn(kubernetesClient);
     }
 
     @Test
