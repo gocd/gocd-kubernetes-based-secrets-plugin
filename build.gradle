@@ -56,7 +56,7 @@ static String versionOf(String dependencySpec) {
 ext {
     deps = [
             gocdPluginApi      : 'cd.go.plugin:go-plugin-api:25.2.0',
-            kubernetesClientApi: 'io.fabric8:kubernetes-client-api:7.2.0',
+            kubernetesClientApi: 'io.fabric8:kubernetes-client-api:7.3.1',
     ]
 
     versions = project.ext.deps.collectEntries { lib, libGav -> [lib, versionOf(libGav)] }
@@ -64,17 +64,17 @@ ext {
 
 dependencies {
     compileOnly project.deps.gocdPluginApi
-    implementation group: 'cd.go.plugin.base', name: 'gocd-plugin-base', version: '1.0.2'
+    implementation group: 'cd.go.plugin.base', name: 'gocd-plugin-base', version: '1.0.4'
     implementation project.deps.kubernetesClientApi
     runtimeOnly group: 'io.fabric8', name: 'kubernetes-client', version: project.versions.kubernetesClientApi
 
-    testImplementation platform('org.junit:junit-bom:5.12.2')
+    testImplementation platform('org.junit:junit-bom:5.13.0')
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
     testRuntimeOnly group: 'org.junit.platform', name: 'junit-platform-launcher'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.27.3'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.17.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.18.0'
     testImplementation group: 'org.jsoup', name: 'jsoup', version: '1.20.1'
     testImplementation project.deps.gocdPluginApi
     testImplementation group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.3'
