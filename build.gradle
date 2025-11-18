@@ -73,6 +73,9 @@ dependencies {
     compileOnly project.deps.gocdPluginApi
     implementation 'cd.go.plugin.base:gocd-plugin-base:1.1.0'
     implementation project.deps.kubernetesClientApi
+    constraints {
+        implementation 'io.vertx:vertx-web-client:4.5.22' // Upgrade transitive version within fabric kubernetes-client
+    }
     runtimeOnly "io.fabric8:kubernetes-client:${project.versions.kubernetesClientApi}"
 
     testImplementation platform('org.junit:junit-bom:6.0.1')
