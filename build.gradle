@@ -21,7 +21,7 @@ apply from: "https://raw.githubusercontent.com/gocd/gocd-plugin-gradle-task-help
 
 gocdPlugin {
     id = 'cd.go.contrib.secrets.kubernetes'
-    pluginVersion = '2.0.0'
+    pluginVersion = '2.0.1'
     goCdVersion = '22.1.0'
     name = 'Kubernetes Secrets Plugin for GoCD'
     description = 'Kubernetes secrets based secrets plugin for GoCD'
@@ -74,9 +74,11 @@ dependencies {
     implementation 'cd.go.plugin.base:gocd-plugin-base:1.1.1'
     implementation project.deps.kubernetesClientApi
     constraints {
-        implementation 'io.vertx:vertx-web-client:4.5.22' // Upgrade transitive version within fabric kubernetes-client
+        implementation 'io.vertx:vertx-web-client:4.5.23' // Upgrade transitive version within fabric kubernetes-client
     }
     runtimeOnly "io.fabric8:kubernetes-client:${project.versions.kubernetesClientApi}"
+    implementation platform('org.slf4j:slf4j-bom:2.0.17')
+    runtimeOnly 'org.slf4j:slf4j-simple'
 
     testImplementation project.deps.gocdPluginApi
     testImplementation platform('org.junit:junit-bom:6.0.1')
