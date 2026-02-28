@@ -74,7 +74,8 @@ dependencies {
     implementation 'cd.go.plugin.base:gocd-plugin-base:1.1.1'
     implementation project.deps.kubernetesClientApi
     runtimeOnly "io.fabric8:kubernetes-client:${project.versions.kubernetesClientApi}"
-    implementation platform('org.slf4j:slf4j-bom:2.0.17')
+    implementation platform('com.fasterxml.jackson:jackson-bom:2.21.1') // Control Jackson version used by kubernetes client
+    implementation platform('org.slf4j:slf4j-bom:2.0.17') // Control SLF4J version used by client Jackson version used by kubernetes client
     runtimeOnly 'org.slf4j:slf4j-simple'
 
     testImplementation project.deps.gocdPluginApi
