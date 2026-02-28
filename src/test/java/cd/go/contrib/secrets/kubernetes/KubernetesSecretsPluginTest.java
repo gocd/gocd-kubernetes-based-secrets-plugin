@@ -16,7 +16,7 @@
 
 package cd.go.contrib.secrets.kubernetes;
 
-import cd.go.contrib.secrets.kubernetes.annotations.JsonSource;
+import cd.go.plugin.base.test_helper.annotations.JsonSource;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
