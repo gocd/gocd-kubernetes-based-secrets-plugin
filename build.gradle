@@ -63,7 +63,7 @@ static String versionOf(String dependencySpec) {
 ext {
     deps = [
         gocdPluginApi      : 'cd.go.plugin:go-plugin-api:25.4.0',
-        gocdPluginBase     : 'cd.go.plugin.base:gocd-plugin-base:2.0.0',
+        gocdPluginBase     : 'cd.go.plugin.base:gocd-plugin-base:2.0.1',
         kubernetesClientApi: 'io.fabric8:kubernetes-client-api:7.6.1',
     ]
 
@@ -75,7 +75,7 @@ dependencies {
     implementation project.deps.gocdPluginBase
     implementation project.deps.kubernetesClientApi
     runtimeOnly "io.fabric8:kubernetes-client:${project.versions.kubernetesClientApi}"
-    implementation platform('com.fasterxml.jackson:jackson-bom:2.21.2') // Control Jackson version used by kubernetes client
+    implementation platform('com.fasterxml.jackson:jackson-bom:2.21.3') // Control Jackson version used by kubernetes client
     implementation platform('org.slf4j:slf4j-bom:2.0.17') // Control SLF4J version used by client Jackson version used by kubernetes client
     runtimeOnly 'org.slf4j:slf4j-simple'
 
@@ -89,7 +89,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.27.7'
     testImplementation 'org.mockito:mockito-core:5.23.0'
     testImplementation 'org.skyscreamer:jsonassert:1.5.3'
-    testImplementation 'org.jsoup:jsoup:1.22.1'
+    testImplementation 'org.jsoup:jsoup:1.22.2'
 }
 
 test {
