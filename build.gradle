@@ -64,7 +64,7 @@ ext {
     deps = [
         gocdPluginApi      : 'cd.go.plugin:go-plugin-api:25.4.0',
         gocdPluginBase     : 'cd.go.plugin.base:gocd-plugin-base:2.0.1',
-        kubernetesClientApi: 'io.fabric8:kubernetes-client-api:7.6.1',
+        kubernetesClientApi: 'io.fabric8:kubernetes-client-api:7.7.0',
     ]
 
     versions = project.ext.deps.collectEntries { lib, libGav -> [lib, versionOf(libGav)] }
@@ -78,13 +78,13 @@ dependencies {
     constraints {
         implementation 'io.vertx:vertx-web-client:4.5.27' // Upgrade transitive version within fabric kubernetes-client
     }
-    implementation platform('com.fasterxml.jackson:jackson-bom:2.21.3') // Control Jackson version used by kubernetes client
-    implementation platform('org.slf4j:slf4j-bom:2.0.17') // Control SLF4J version used by client Jackson version used by kubernetes client
+    implementation platform('com.fasterxml.jackson:jackson-bom:2.21.4') // Control Jackson version used by kubernetes client
+    implementation platform('org.slf4j:slf4j-bom:2.0.18') // Control SLF4J version used by client Jackson version used by kubernetes client
     runtimeOnly 'org.slf4j:slf4j-simple'
 
     testImplementation project.deps.gocdPluginApi
     testImplementation(testFixtures(project.deps.gocdPluginBase))
-    testImplementation platform('org.junit:junit-bom:6.0.3')
+    testImplementation platform('org.junit:junit-bom:6.1.0')
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
