@@ -78,7 +78,7 @@ dependencies {
     constraints {
         implementation 'io.vertx:vertx-web-client:4.5.32' // Upgrade transitive version within fabric kubernetes-client
     }
-    implementation platform('com.fasterxml.jackson:jackson-bom:2.22.1') // Control Jackson version used by kubernetes client
+    implementation platform('com.fasterxml.jackson:jackson-bom:2.22.2') // Control Jackson version used by kubernetes client
     implementation platform('org.slf4j:slf4j-bom:2.0.18') // Control SLF4J version used by client Jackson version used by kubernetes client
     runtimeOnly 'org.slf4j:slf4j-simple'
 
@@ -92,7 +92,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.27.7'
     testImplementation 'org.mockito:mockito-core:5.23.0'
     testImplementation 'org.skyscreamer:jsonassert:1.5.3'
-    testImplementation 'org.jsoup:jsoup:1.23.1'
+    testImplementation 'org.jsoup:jsoup:1.23.2'
 }
 
 test {
